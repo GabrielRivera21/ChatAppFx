@@ -2,6 +2,7 @@ package edu.uprb.chat;
 
 import java.io.IOException;
 
+import edu.uprb.chat.controller.ChatController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

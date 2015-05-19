@@ -1,4 +1,4 @@
-package edu.uprb.chat;
+package edu.uprb.chat.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

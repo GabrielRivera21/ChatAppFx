@@ -89,6 +89,6 @@
     </AnchorPane>
   </children>
   <stylesheets>
-    <URL value="@ClientGUI/BasicApplication.css" />
+    <URL value="@css/BasicApplication.css" />
   </stylesheets>
 </VBox>
