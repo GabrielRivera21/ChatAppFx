@@ -2,7 +2,7 @@ package edu.uprb.chat;
 
 import java.io.IOException;
 
-import edu.uprb.chat.controller.ChatController;
+import edu.uprb.chat.controller.ClientController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,7 +27,7 @@ public class ChatClient extends Application {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(ChatClient.class.getResource("view/ClientGUI.fxml"));
-			loader.setController(new ChatController());
+			loader.setController(new ClientController());
 			chatLayout = (VBox) loader.load();
 
 			// Show the scene containing the root layout.

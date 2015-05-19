@@ -63,7 +63,7 @@
             <Button fx:id="btnLogout" layoutX="541.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="79.0" text="Logout" />
             <ScrollPane layoutX="14.0" layoutY="44.0" prefHeight="200.0" prefWidth="421.0">
                <content>
-                  <TextArea fx:id="txtAreaServerMsgs" prefHeight="200.0" prefWidth="406.0" />
+                  <TextArea fx:id="txtAreaServerMsgs" editable="false" prefHeight="200.0" prefWidth="406.0" />
                </content>
             </ScrollPane>
             <TitledPane animated="false" layoutX="450.0" layoutY="41.0" text="Users">
@@ -83,7 +83,7 @@
                   </AnchorPane>
               </content>
             </TitledPane>
-            <TextArea fx:id="txtUserMsg" layoutX="14.0" layoutY="261.0" onKeyPressed="#sendMessage" prefHeight="96.0" prefWidth="421.0" promptText="Type your Message here..." />
+            <TextArea fx:id="txtUserMsg" layoutX="14.0" layoutY="261.0" prefHeight="96.0" prefWidth="421.0" promptText="Type your Message here..." />
             <Button fx:id="btnSend" layoutX="453.0" layoutY="313.0" mnemonicParsing="false" onAction="#sendMessage" onKeyPressed="#sendMessage" prefHeight="44.0" prefWidth="174.0" text="Send" />
       </children>
     </AnchorPane>
