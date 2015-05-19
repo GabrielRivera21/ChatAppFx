@@ -6,8 +6,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import edu.uprb.chat.model.ChatMessage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -25,6 +28,8 @@ public class ClientController {
 	private TextField txtHostIP;
 	@FXML
 	private TextField txtUsername;
+	@FXML
+	private ListView<String> listUser;
 
 	// Server Configuration
 	private boolean connected;
@@ -35,6 +40,7 @@ public class ClientController {
 	private ObjectInputStream sInput;		// to read from the socket
 	private ObjectOutputStream sOutput;		// to write on the socket
 	private Socket socket;
+	
 
 	public void login() {
 		port = 1500;
@@ -161,6 +167,9 @@ public class ClientController {
 	class ListenFromServer extends Thread {
 
 		public void run() {
+			ObservableList<String> users =	FXCollections.observableArrayList();
+			users.add(username);
+			listUser.setItems(users);
 			while(true) {
 				try {
 					String msg = (String) sInput.readObject();
