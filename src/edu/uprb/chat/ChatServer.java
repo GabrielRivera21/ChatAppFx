@@ -2,38 +2,45 @@ package edu.uprb.chat;
 
 import java.io.IOException;
 
-import edu.uprb.chat.controller.ClientController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import edu.uprb.chat.controller.ServerController;
 
-public class ChatClient extends Application {
-
+public class ChatServer extends Application {
+	
 	private Stage primaryStage;
-	private VBox chatLayout;
+	private VBox serverLayout;
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Data Communication Chat App");
+		this.primaryStage.setTitle("Server Chat");
 
-		initChatLayout();
+		initServerLayout();
 	}
 
-	private void initChatLayout() {
+	private void initServerLayout() {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(ChatClient.class.getResource("view/ClientGUI.fxml"));
-			loader.setController(new ClientController());
-			chatLayout = (VBox) loader.load();
+			loader.setLocation(ChatClient.class.getResource("view/ServerGUI.fxml"));
+			loader.setController(new ServerController());
+			serverLayout = (VBox) loader.load();
 
 			// Show the scene containing the root layout.
-			Scene scene = new Scene(chatLayout);
+			Scene scene = new Scene(serverLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				public void handle(WindowEvent we) {
+					
+				}
+			});        
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
