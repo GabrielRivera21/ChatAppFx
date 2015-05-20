@@ -1,5 +1,6 @@
 package edu.uprb.chat.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,13 +19,13 @@ public class ServerController {
 	private Button btnStartServer;
 	@FXML
 	private Button btnStopServer;
-	
-	private Server server;
-	
+
+	public Server server;
+
 	private ObservableList<String> users;
 
 	public void startServer() {
-		// ceate a new Server
+		// create a new Server
 		server = new Server(1500, this);
 		users = FXCollections.observableArrayList();
 		listUsersConnected.setItems(users);
@@ -56,21 +57,23 @@ public class ServerController {
 			users = null;
 		}
 	}
-	
+
 	public void addUser(String user) {
-		users.add(user);
-		listUsersConnected.setItems(users);
+		Platform.runLater(() -> {
+			users.add(user);
+		});
 	}
 	public void appendEvent(String string) {
-		txtAreaEventLog.appendText(string + "\n");
+		txtAreaEventLog.appendText(string);
 	}
 
 	public void appendRoom(String messageLf) {
-		txtAreaChatMsg.appendText(messageLf + "\n");
+		txtAreaChatMsg.appendText(messageLf);
 	}
 
 	public void remove(String username) {
-		users.remove(username);
-		listUsersConnected.setItems(users);
+		Platform.runLater(() -> {
+			users.remove(username);
+		});
 	}
 }

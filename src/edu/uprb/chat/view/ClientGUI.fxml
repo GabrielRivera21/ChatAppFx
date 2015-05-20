@@ -60,8 +60,8 @@
                </font>
             </TextField>
             <Button fx:id="btnLogin" layoutX="453.0" layoutY="10.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="79.0" text="Login" />
-            <Button fx:id="btnLogout" layoutX="541.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="79.0" text="Logout" />
-            <TextArea fx:id="txtAreaServerMsgs" editable="false" layoutX="14.0" layoutY="36.0" prefHeight="200.0" prefWidth="421.0" wrapText="true" />
+            <Button fx:id="btnLogout" disable="true" layoutX="541.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="79.0" text="Logout" />
+            <TextArea fx:id="txtAreaServerMsgs" editable="false" layoutX="14.0" layoutY="43.0" prefHeight="193.0" prefWidth="421.0" wrapText="true" />
             <TitledPane animated="false" layoutX="450.0" layoutY="41.0" text="Users">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="172.0">

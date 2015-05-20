@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import edu.uprb.chat.model.ChatMessage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 
 public class ClientController {
 
+	// Java FX Implementation
 	@FXML
 	private Button btnLogin;
 	@FXML
@@ -25,13 +27,15 @@ public class ClientController {
 	@FXML
 	private TextArea txtAreaServerMsgs;
 	@FXML
-	private TextArea txtUserMsg;
-	@FXML
 	private TextField txtHostIP;
 	@FXML
 	private TextField txtUsername;
 	@FXML
 	private ListView<String> listUser;
+	@FXML
+	private TextArea txtUserMsg;
+
+	private ObservableList<String> users;
 
 	// Server Configuration
 	private boolean connected;
@@ -43,7 +47,9 @@ public class ClientController {
 	private ObjectOutputStream sOutput;		// to write on the socket
 	private Socket socket;
 
-
+	/**
+	 * Method used by btnLogin from Java FX
+	 */
 	public void login() {
 		port = 1500;
 		server = txtHostIP.getText();
@@ -56,10 +62,14 @@ public class ClientController {
 		connected = true;
 		btnLogin.setDisable(true);
 		btnLogout.setDisable(false);
+		txtUsername.setEditable(false);
+		txtHostIP.setEditable(false);
 	}
 
+	/**
+	 * Method used by btnLogout from Java FX
+	 */
 	public void logout() {
-		//TODO
 		if (connected) {
 			ChatMessage msg = new ChatMessage(ChatMessage.LOGOUT, "");
 			try {
@@ -67,6 +77,8 @@ public class ClientController {
 				txtUserMsg.setText("");
 				btnLogout.setDisable(false);
 				btnLogin.setDisable(true);
+				txtUsername.setEditable(true);
+				txtHostIP.setEditable(true);
 			}
 			catch(IOException e) {
 				display("Exception writing to server: " + e);
@@ -74,7 +86,7 @@ public class ClientController {
 		}
 	}
 
-	/*
+	/**
 	 * To send a message to the server
 	 */
 	public void sendMessage() {
@@ -90,14 +102,18 @@ public class ClientController {
 		}
 	}
 
+	/**
+	 * Sends message to server
+	 * Used by TextArea txtUserMsg to handle Enter key event
+	 */
 	public void handleEnterPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.ENTER) {
 			sendMessage();
-			txtUserMsg.backward();
+			event.consume();
 		}
 	}
 
-	/*
+	/**
 	 * To start the dialog
 	 */
 	public boolean start() {
@@ -188,16 +204,20 @@ public class ClientController {
 	class ListenFromServer extends Thread {
 
 		public void run() {
-			ObservableList<String> users =	FXCollections.observableArrayList();
+			users =	FXCollections.observableArrayList();
 			listUser.setItems(users);
 			while(true) {
 				try {
 					String msg = (String) sInput.readObject();
 					String[] split = msg.split(":");
 					if (split[1].equals("WHOISIN")) {
-						users.add(split[0]);
+						Platform.runLater(() -> {
+							users.add(split[0]);
+						});;
 					} else if (split[1].equals("REMOVE")) {
-						users.remove(split[0]);
+						Platform.runLater(() -> {
+							users.remove(split[0]);
+						});
 					} else{
 						txtAreaServerMsgs.appendText(msg);
 					}
@@ -205,7 +225,9 @@ public class ClientController {
 				catch(IOException e) {
 					display("Server has close the connection");
 					connectionFailed();
-					listUser.setItems(null);
+					Platform.runLater(() -> {
+						listUser.setItems(null);
+					});
 					break;
 				}
 				// can't happen with a String object but need the catch anyhow

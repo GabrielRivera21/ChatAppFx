@@ -29,7 +29,8 @@ public class ChatServer extends Application {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(ChatClient.class.getResource("view/ServerGUI.fxml"));
-			loader.setController(new ServerController());
+			ServerController serverController = new ServerController();
+			loader.setController(serverController);
 			serverLayout = (VBox) loader.load();
 
 			// Show the scene containing the root layout.
@@ -38,7 +39,12 @@ public class ChatServer extends Application {
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				public void handle(WindowEvent we) {
-					
+					// We need to eliminate the Server Threads
+					// If the User decides to close it.
+					if (serverController.server != null) {
+						serverController.server.stop();
+						serverController.server = null;
+					}
 				}
 			});        
 		} catch (IOException e) {
