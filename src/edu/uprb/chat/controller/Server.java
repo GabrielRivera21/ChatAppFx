@@ -133,6 +133,7 @@ public class Server {
 			// try to write to the Client if it fails remove it from the list
 			if(!ct.writeMsg(messageLf)) {
 				al.remove(i);
+				sg.remove(ct.username);
 				display("Disconnected Client " + ct.username + " removed from list.");
 			}
 		}
@@ -145,41 +146,12 @@ public class Server {
 			ClientThread ct = al.get(i);
 			// found it
 			if(ct.id == id) {
+				sg.remove(ct.username);
+				ct.writeMsg(ct.username + ":REMOVE");
 				al.remove(i);
 				return;
 			}
 		}
-	}
-
-	/*
-	 *  To run as a console application just open a console window and: 
-	 * > java Server
-	 * > java Server portNumber
-	 * If the port number is not specified 1500 is used
-	 */ 
-	public static void main(String[] args) {
-		// start server on port 1500 unless a PortNumber is specified 
-		int portNumber = 1500;
-		switch(args.length) {
-		case 1:
-			try {
-				portNumber = Integer.parseInt(args[0]);
-			}
-			catch(Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java Server [portNumber]");
-				return;
-			}
-		case 0:
-			break;
-		default:
-			System.out.println("Usage is: > java Server [portNumber]");
-			return;
-
-		}
-		// create a server object and start it
-		Server server = new Server(portNumber);
-		server.start();
 	}
 
 	/** One instance of this thread will run for each client */
@@ -211,6 +183,8 @@ public class Server {
 				sInput  = new ObjectInputStream(socket.getInputStream());
 				// read the username
 				username = (String) sInput.readObject();
+				sg.addUser(username);
+				writeMsg(username + ":WHOISIN");
 				display(username + " just connected.");
 			}
 			catch (IOException e) {
@@ -251,6 +225,7 @@ public class Server {
 					break;
 				case ChatMessage.LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
+					writeMsg(username + ":REMOVE");
 					keepGoing = false;
 					break;
 				}

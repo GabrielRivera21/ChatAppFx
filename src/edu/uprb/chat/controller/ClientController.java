@@ -35,12 +35,12 @@ public class ClientController {
 	private boolean connected;
 	private String server, username;
 	private int port;
-	
+
 	// for I/O
 	private ObjectInputStream sInput;		// to read from the socket
 	private ObjectOutputStream sOutput;		// to write on the socket
 	private Socket socket;
-	
+
 
 	public void login() {
 		port = 1500;
@@ -59,7 +59,7 @@ public class ClientController {
 		//TODO
 		System.out.println("Logout");
 	}
-	
+
 	/*
 	 * To send a message to the server
 	 */
@@ -75,7 +75,7 @@ public class ClientController {
 			}
 		}
 	}
-	
+
 	/*
 	 * To start the dialog
 	 */
@@ -168,17 +168,23 @@ public class ClientController {
 
 		public void run() {
 			ObservableList<String> users =	FXCollections.observableArrayList();
-			users.add(username);
 			listUser.setItems(users);
 			while(true) {
 				try {
 					String msg = (String) sInput.readObject();
-					// if console mode print the message and add back the prompt
-					txtAreaServerMsgs.appendText(msg);
+					String[] split = msg.split(":");
+					if (split[1].equals("WHOISIN")) {
+						users.add(split[0]);
+					} else if (split[1].equals("REMOVE")) {
+						users.remove(split[0]);
+					} else{
+						txtAreaServerMsgs.appendText(msg);
+					}
 				}
 				catch(IOException e) {
 					display("Server has close the connection: " + e);
 					connectionFailed();
+					listUser.setItems(null);
 					break;
 				}
 				// can't happen with a String object but need the catch anyhow
