@@ -52,17 +52,9 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ScrollPane layoutX="11.0" layoutY="61.0" prefHeight="186.0" prefWidth="298.0">
-               <content>
-                  <TextArea fx:id="txtAreaChatMsg" editable="false" prefHeight="190.0" prefWidth="296.0" />
-               </content>
-            </ScrollPane>
+            <TextArea fx:id="txtAreaChatMsg" editable="false" layoutX="14.0" layoutY="60.0" prefHeight="190.0" prefWidth="296.0" wrapText="true" />
             <Label layoutX="21.0" layoutY="14.0" prefHeight="17.0" prefWidth="67.0" text="Server App" />
-            <ScrollPane layoutX="11.0" layoutY="271.0" prefHeight="85.0" prefWidth="615.0">
-               <content>
-                  <TextArea fx:id="txtAreaEventLog" editable="false" prefHeight="92.0" prefWidth="611.0" />
-               </content>
-            </ScrollPane>
+            <TextArea fx:id="txtAreaEventLog" editable="false" layoutX="15.0" layoutY="270.0" prefHeight="92.0" prefWidth="611.0" wrapText="true" />
             <Label layoutX="14.0" layoutY="44.0" text="Chat Messages" />
             <Label layoutX="14.0" layoutY="254.0" text="Event Log" />
             <ListView fx:id="listUsersConnected" layoutX="329.0" layoutY="59.0" prefHeight="186.0" prefWidth="298.0" />
