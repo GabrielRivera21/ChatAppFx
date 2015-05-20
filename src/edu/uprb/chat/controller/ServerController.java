@@ -31,7 +31,7 @@ public class ServerController {
 		if(server != null) {
 			server.stop();
 			btnStopServer.setDisable(true);
-			btnStartServer.setDisable(true);
+			btnStartServer.setDisable(false);
 			server = null;
 			return;
 		}

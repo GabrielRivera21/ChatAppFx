@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class ClientController {
 
@@ -53,11 +55,23 @@ public class ClientController {
 			return;
 		connected = true;
 		btnLogin.setDisable(true);
+		btnLogout.setDisable(false);
 	}
 
 	public void logout() {
 		//TODO
-		System.out.println("Logout");
+		if (connected) {
+			ChatMessage msg = new ChatMessage(ChatMessage.LOGOUT, "");
+			try {
+				sOutput.writeObject(msg);
+				txtUserMsg.setText("");
+				btnLogout.setDisable(false);
+				btnLogin.setDisable(true);
+			}
+			catch(IOException e) {
+				display("Exception writing to server: " + e);
+			}
+		}
 	}
 	
 	/*
@@ -75,6 +89,13 @@ public class ClientController {
 			}
 		}
 	}
+	
+	public void handleEnterPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER) {
+        sendMessage();
+      txtUserMsg.backward();
+    }
+}
 	
 	/*
 	 * To start the dialog
@@ -177,7 +198,7 @@ public class ClientController {
 					txtAreaServerMsgs.appendText(msg);
 				}
 				catch(IOException e) {
-					display("Server has close the connection: " + e);
+					display("Server has close the connection");
 					connectionFailed();
 					break;
 				}
